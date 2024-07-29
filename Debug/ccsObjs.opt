@@ -1,0 +1,12 @@
+"./ti_msp_dl_config.o"
+"./startup_mspm0g350x_ticlang.o"
+"./main.o"
+"./Delay/delay.o"
+"./ENCODER/encoder.o"
+"./PWM/pwm.o"
+"./SSD1106_OLED/ssd1106.o"
+"./ST7789/ST7789.o"
+"./UART/UART.o"
+-l"./device_linker.cmd"
+-ldevice.cmd.genlibs
+-llibc.a
