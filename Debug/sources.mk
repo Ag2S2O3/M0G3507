@@ -129,6 +129,5 @@ Delay \
 ENCODER \
 PWM \
 SSD1106_OLED \
-ST7789 \
 UART \
 

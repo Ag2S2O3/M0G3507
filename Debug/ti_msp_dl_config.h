@@ -77,23 +77,40 @@ extern "C" {
 
 
 /* Defines for PWM_0 */
-#define PWM_0_INST                                                         TIMG8
-#define PWM_0_INST_IRQHandler                                   TIMG8_IRQHandler
-#define PWM_0_INST_INT_IRQN                                     (TIMG8_INT_IRQn)
+#define PWM_0_INST                                                         TIMG6
+#define PWM_0_INST_IRQHandler                                   TIMG6_IRQHandler
+#define PWM_0_INST_INT_IRQN                                     (TIMG6_INT_IRQn)
 #define PWM_0_INST_CLK_FREQ                                              1000000
 /* GPIO defines for channel 0 */
 #define GPIO_PWM_0_C0_PORT                                                 GPIOA
-#define GPIO_PWM_0_C0_PIN                                          DL_GPIO_PIN_1
-#define GPIO_PWM_0_C0_IOMUX                                       (IOMUX_PINCM2)
-#define GPIO_PWM_0_C0_IOMUX_FUNC                      IOMUX_PINCM2_PF_TIMG8_CCP0
+#define GPIO_PWM_0_C0_PIN                                         DL_GPIO_PIN_29
+#define GPIO_PWM_0_C0_IOMUX                                       (IOMUX_PINCM4)
+#define GPIO_PWM_0_C0_IOMUX_FUNC                      IOMUX_PINCM4_PF_TIMG6_CCP0
 #define GPIO_PWM_0_C0_IDX                                    DL_TIMER_CC_0_INDEX
 /* GPIO defines for channel 1 */
 #define GPIO_PWM_0_C1_PORT                                                 GPIOA
-#define GPIO_PWM_0_C1_PIN                                          DL_GPIO_PIN_2
-#define GPIO_PWM_0_C1_IOMUX                                       (IOMUX_PINCM7)
-#define GPIO_PWM_0_C1_IOMUX_FUNC                      IOMUX_PINCM7_PF_TIMG8_CCP1
+#define GPIO_PWM_0_C1_PIN                                         DL_GPIO_PIN_30
+#define GPIO_PWM_0_C1_IOMUX                                       (IOMUX_PINCM5)
+#define GPIO_PWM_0_C1_IOMUX_FUNC                      IOMUX_PINCM5_PF_TIMG6_CCP1
 #define GPIO_PWM_0_C1_IDX                                    DL_TIMER_CC_1_INDEX
 
+
+
+
+/* Defines for QEI_0 */
+#define QEI_0_INST                                                         TIMG8
+#define QEI_0_INST_IRQHandler                                   TIMG8_IRQHandler
+#define QEI_0_INST_INT_IRQN                                     (TIMG8_INT_IRQn)
+/* Pin configuration defines for QEI_0 PHA Pin */
+#define GPIO_QEI_0_PHA_PORT                                                GPIOA
+#define GPIO_QEI_0_PHA_PIN                                         DL_GPIO_PIN_5
+#define GPIO_QEI_0_PHA_IOMUX                                     (IOMUX_PINCM10)
+#define GPIO_QEI_0_PHA_IOMUX_FUNC                    IOMUX_PINCM10_PF_TIMG8_CCP0
+/* Pin configuration defines for QEI_0 PHB Pin */
+#define GPIO_QEI_0_PHB_PORT                                                GPIOA
+#define GPIO_QEI_0_PHB_PIN                                         DL_GPIO_PIN_4
+#define GPIO_QEI_0_PHB_IOMUX                                      (IOMUX_PINCM9)
+#define GPIO_QEI_0_PHB_IOMUX_FUNC                     IOMUX_PINCM9_PF_TIMG8_CCP1
 
 
 /* Defines for TIMER_0 */
@@ -123,21 +140,6 @@ extern "C" {
 
 
 
-/* Defines for SPI1 */
-#define SPI1_INST                                                          SPI1
-#define SPI1_INST_IRQHandler                                    SPI1_IRQHandler
-#define SPI1_INST_INT_IRQN                                        SPI1_INT_IRQn
-#define GPIO_SPI1_PICO_PORT                                               GPIOB
-#define GPIO_SPI1_PICO_PIN                                        DL_GPIO_PIN_8
-#define GPIO_SPI1_IOMUX_PICO                                    (IOMUX_PINCM25)
-#define GPIO_SPI1_IOMUX_PICO_FUNC                    IOMUX_PINCM25_PF_SPI1_PICO
-/* GPIO configuration for SPI1 */
-#define GPIO_SPI1_SCLK_PORT                                               GPIOB
-#define GPIO_SPI1_SCLK_PIN                                        DL_GPIO_PIN_9
-#define GPIO_SPI1_IOMUX_SCLK                                    (IOMUX_PINCM26)
-#define GPIO_SPI1_IOMUX_SCLK_FUNC                    IOMUX_PINCM26_PF_SPI1_SCLK
-
-
 
 /* Port definition for Pin Group GPIO_LED */
 #define GPIO_LED_PORT                                                    (GPIOA)
@@ -154,21 +156,6 @@ extern "C" {
 /* Defines for PIN_SDA: GPIOA.13 with pinCMx 35 on package pin 6 */
 #define GPIO_OLED_PIN_SDA_PIN                                   (DL_GPIO_PIN_13)
 #define GPIO_OLED_PIN_SDA_IOMUX                                  (IOMUX_PINCM35)
-/* Port definition for Pin Group GPIO_LCD */
-#define GPIO_LCD_PORT                                                    (GPIOA)
-
-/* Defines for ST7789_RST: GPIOA.27 with pinCMx 60 on package pin 31 */
-#define GPIO_LCD_ST7789_RST_PIN                                 (DL_GPIO_PIN_27)
-#define GPIO_LCD_ST7789_RST_IOMUX                                (IOMUX_PINCM60)
-/* Defines for ST7789_A0: GPIOA.26 with pinCMx 59 on package pin 30 */
-#define GPIO_LCD_ST7789_A0_PIN                                  (DL_GPIO_PIN_26)
-#define GPIO_LCD_ST7789_A0_IOMUX                                 (IOMUX_PINCM59)
-/* Defines for ST7789_CS: GPIOA.25 with pinCMx 55 on package pin 26 */
-#define GPIO_LCD_ST7789_CS_PIN                                  (DL_GPIO_PIN_25)
-#define GPIO_LCD_ST7789_CS_IOMUX                                 (IOMUX_PINCM55)
-/* Defines for ST7789_BL: GPIOA.24 with pinCMx 54 on package pin 25 */
-#define GPIO_LCD_ST7789_BL_PIN                                  (DL_GPIO_PIN_24)
-#define GPIO_LCD_ST7789_BL_IOMUX                                 (IOMUX_PINCM54)
 /* Port definition for Pin Group GPIO_SPI_OLED */
 #define GPIO_SPI_OLED_PORT                                               (GPIOA)
 
@@ -184,28 +171,38 @@ extern "C" {
 /* Defines for DC: GPIOA.17 with pinCMx 39 on package pin 10 */
 #define GPIO_SPI_OLED_DC_PIN                                    (DL_GPIO_PIN_17)
 #define GPIO_SPI_OLED_DC_IOMUX                                   (IOMUX_PINCM39)
-/* Port definition for Pin Group GPIO_ENCODER */
-#define GPIO_ENCODER_PORT                                                (GPIOA)
+/* Port definition for Pin Group GPIO_GRAY */
+#define GPIO_GRAY_PORT                                                   (GPIOA)
 
-/* Defines for MONITOR1_PIN_1: GPIOA.4 with pinCMx 9 on package pin 44 */
-// pins affected by this interrupt request:["MONITOR1_PIN_1","MONITOR1_PIN_2","MONITOR2_PIN_1","MONITOR2_PIN_2"]
-#define GPIO_ENCODER_INT_IRQN                                   (GPIOA_INT_IRQn)
-#define GPIO_ENCODER_INT_IIDX                   (DL_INTERRUPT_GROUP1_IIDX_GPIOA)
-#define GPIO_ENCODER_MONITOR1_PIN_1_IIDX                     (DL_GPIO_IIDX_DIO4)
-#define GPIO_ENCODER_MONITOR1_PIN_1_PIN                          (DL_GPIO_PIN_4)
-#define GPIO_ENCODER_MONITOR1_PIN_1_IOMUX                         (IOMUX_PINCM9)
-/* Defines for MONITOR1_PIN_2: GPIOA.5 with pinCMx 10 on package pin 45 */
-#define GPIO_ENCODER_MONITOR1_PIN_2_IIDX                     (DL_GPIO_IIDX_DIO5)
-#define GPIO_ENCODER_MONITOR1_PIN_2_PIN                          (DL_GPIO_PIN_5)
-#define GPIO_ENCODER_MONITOR1_PIN_2_IOMUX                        (IOMUX_PINCM10)
-/* Defines for MONITOR2_PIN_1: GPIOA.6 with pinCMx 11 on package pin 46 */
-#define GPIO_ENCODER_MONITOR2_PIN_1_IIDX                     (DL_GPIO_IIDX_DIO6)
-#define GPIO_ENCODER_MONITOR2_PIN_1_PIN                          (DL_GPIO_PIN_6)
-#define GPIO_ENCODER_MONITOR2_PIN_1_IOMUX                        (IOMUX_PINCM11)
-/* Defines for MONITOR2_PIN_2: GPIOA.7 with pinCMx 14 on package pin 49 */
-#define GPIO_ENCODER_MONITOR2_PIN_2_IIDX                     (DL_GPIO_IIDX_DIO7)
-#define GPIO_ENCODER_MONITOR2_PIN_2_PIN                          (DL_GPIO_PIN_7)
-#define GPIO_ENCODER_MONITOR2_PIN_2_IOMUX                        (IOMUX_PINCM14)
+/* Defines for OUT_1: GPIOA.21 with pinCMx 46 on package pin 17 */
+#define GPIO_GRAY_OUT_1_PIN                                     (DL_GPIO_PIN_21)
+#define GPIO_GRAY_OUT_1_IOMUX                                    (IOMUX_PINCM46)
+/* Defines for OUT_2: GPIOA.22 with pinCMx 47 on package pin 18 */
+#define GPIO_GRAY_OUT_2_PIN                                     (DL_GPIO_PIN_22)
+#define GPIO_GRAY_OUT_2_IOMUX                                    (IOMUX_PINCM47)
+/* Defines for OUT_3: GPIOA.23 with pinCMx 53 on package pin 24 */
+#define GPIO_GRAY_OUT_3_PIN                                     (DL_GPIO_PIN_23)
+#define GPIO_GRAY_OUT_3_IOMUX                                    (IOMUX_PINCM53)
+/* Defines for OUT_4: GPIOA.24 with pinCMx 54 on package pin 25 */
+#define GPIO_GRAY_OUT_4_PIN                                     (DL_GPIO_PIN_24)
+#define GPIO_GRAY_OUT_4_IOMUX                                    (IOMUX_PINCM54)
+/* Defines for OUT_5: GPIOA.25 with pinCMx 55 on package pin 26 */
+#define GPIO_GRAY_OUT_5_PIN                                     (DL_GPIO_PIN_25)
+#define GPIO_GRAY_OUT_5_IOMUX                                    (IOMUX_PINCM55)
+/* Port definition for Pin Group DECODER */
+#define DECODER_PORT                                                     (GPIOA)
+
+/* Defines for QEI_1: GPIOA.6 with pinCMx 11 on package pin 46 */
+// pins affected by this interrupt request:["QEI_1","QEI_2"]
+#define DECODER_INT_IRQN                                        (GPIOA_INT_IRQn)
+#define DECODER_INT_IIDX                        (DL_INTERRUPT_GROUP1_IIDX_GPIOA)
+#define DECODER_QEI_1_IIDX                                   (DL_GPIO_IIDX_DIO6)
+#define DECODER_QEI_1_PIN                                        (DL_GPIO_PIN_6)
+#define DECODER_QEI_1_IOMUX                                      (IOMUX_PINCM11)
+/* Defines for QEI_2: GPIOA.7 with pinCMx 14 on package pin 49 */
+#define DECODER_QEI_2_IIDX                                   (DL_GPIO_IIDX_DIO7)
+#define DECODER_QEI_2_PIN                                        (DL_GPIO_PIN_7)
+#define DECODER_QEI_2_IOMUX                                      (IOMUX_PINCM14)
 
 /* clang-format on */
 
@@ -214,9 +211,9 @@ void SYSCFG_DL_initPower(void);
 void SYSCFG_DL_GPIO_init(void);
 void SYSCFG_DL_SYSCTL_init(void);
 void SYSCFG_DL_PWM_0_init(void);
+void SYSCFG_DL_QEI_0_init(void);
 void SYSCFG_DL_TIMER_0_init(void);
 void SYSCFG_DL_UART_0_init(void);
-void SYSCFG_DL_SPI1_init(void);
 
 
 bool SYSCFG_DL_saveConfiguration(void);

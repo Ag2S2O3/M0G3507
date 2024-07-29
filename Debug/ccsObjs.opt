@@ -5,7 +5,6 @@
 "./ENCODER/encoder.o"
 "./PWM/pwm.o"
 "./SSD1106_OLED/ssd1106.o"
-"./ST7789/ST7789.o"
 "./UART/UART.o"
 -l"./device_linker.cmd"
 -ldevice.cmd.genlibs

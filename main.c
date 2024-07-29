@@ -33,7 +33,6 @@
 #include "ti_msp_dl_config.h"
 #include "UART.h"
 #include "delay.h"
-#include "ST7789.h"
 #include "ssd1106.h"
 #include "pwm.h"
 #include "encoder.h"
@@ -67,7 +66,8 @@ int main(void)
             SSD1106_ShowFNum(17, 2, UART_ReturnPitch(), 8, 4);
             SSD1106_ShowFNum(17, 4, UART_ReturnYaw(), 8, 4);
         }
-        SSD1106_ShowNum(25, 6, Encoder_GetM1(), 5, 16);
+        SSD1106_ShowFNum(25, 6, Encoder_GetM1(), 5, 0);
+        SSD1106_ShowFNum(25, 4, Encoder_GetM2(), 5, 0);
 
         DL_GPIO_togglePins(GPIO_LED_PORT, GPIO_LED_LED_PIN);
     }

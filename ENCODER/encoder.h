@@ -6,7 +6,6 @@
 
 void Encoder_Init(void);
 void GetCount(void);
-uint16_t Encoder_GetM1(void);
-uint16_t Encoder_GetM2(void);
-
+int16_t Encoder_GetM1(void);
+int16_t Encoder_GetM2(void);
 #endif

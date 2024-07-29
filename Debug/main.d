@@ -76,7 +76,6 @@ main.o: ../main.c \
  E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/m0p/dl_systick.h \
  C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/UART/UART.h \
  C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/Delay/delay.h \
- C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/ST7789/ST7789.h \
  C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/SSD1106_OLED/ssd1106.h \
  C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/PWM/pwm.h \
  C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/ENCODER/encoder.h
@@ -230,8 +229,6 @@ E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/m0p/dl_systick.h:
 C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/UART/UART.h:
 
 C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/Delay/delay.h:
-
-C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/ST7789/ST7789.h:
 
 C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/SSD1106_OLED/ssd1106.h:
 
