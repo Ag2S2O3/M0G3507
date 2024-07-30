@@ -1,6 +1,6 @@
 # FIXED
 
-ENCODER/encoder.o: ../ENCODER/encoder.c \
+PID/pid.o: ../PID/pid.c \
  ti_msp_dl_config.h \
  E:/ti/mspm0_sdk_2_01_00_03/source/ti/devices/msp/msp.h \
  E:/ti/mspm0_sdk_2_01_00_03/source/ti/devices/DeviceFamily.h \
@@ -74,9 +74,7 @@ ENCODER/encoder.o: ../ENCODER/encoder.c \
  E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/dl_wwdt.h \
  E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/m0p/dl_interrupt.h \
  E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/m0p/dl_systick.h \
- C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/ENCODER/encoder.h \
- C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/PID/pid.h \
- C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/PWM/pwm.h
+ C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/PID/pid.h
 
 ti_msp_dl_config.h:
 
@@ -224,8 +222,4 @@ E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/m0p/dl_interrupt.h:
 
 E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/m0p/dl_systick.h:
 
-C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/ENCODER/encoder.h:
-
 C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/PID/pid.h:
-
-C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/PWM/pwm.h:

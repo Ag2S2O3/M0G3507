@@ -42,6 +42,7 @@
 
 DL_TimerG_backupConfig gPWM_0Backup;
 DL_TimerG_backupConfig gQEI_0Backup;
+DL_TimerG_backupConfig gTIMER_1SBackup;
 
 /*
  *  ======== SYSCFG_DL_init ========
@@ -56,11 +57,12 @@ SYSCONFIG_WEAK void SYSCFG_DL_init(void)
     SYSCFG_DL_PWM_0_init();
     SYSCFG_DL_QEI_0_init();
     SYSCFG_DL_TIMER_0_init();
+    SYSCFG_DL_TIMER_1S_init();
     SYSCFG_DL_UART_0_init();
     /* Ensure backup structures have no valid state */
 	gPWM_0Backup.backupRdy 	= false;
 	gQEI_0Backup.backupRdy 	= false;
-
+	gTIMER_1SBackup.backupRdy 	= false;
 
 
 }
@@ -74,6 +76,7 @@ SYSCONFIG_WEAK bool SYSCFG_DL_saveConfiguration(void)
 
 	retStatus &= DL_TimerG_saveConfiguration(PWM_0_INST, &gPWM_0Backup);
 	retStatus &= DL_TimerG_saveConfiguration(QEI_0_INST, &gQEI_0Backup);
+	retStatus &= DL_TimerG_saveConfiguration(TIMER_1S_INST, &gTIMER_1SBackup);
 
     return retStatus;
 }
@@ -85,6 +88,7 @@ SYSCONFIG_WEAK bool SYSCFG_DL_restoreConfiguration(void)
 
 	retStatus &= DL_TimerG_restoreConfiguration(PWM_0_INST, &gPWM_0Backup, false);
 	retStatus &= DL_TimerG_restoreConfiguration(QEI_0_INST, &gQEI_0Backup, false);
+	retStatus &= DL_TimerG_restoreConfiguration(TIMER_1S_INST, &gTIMER_1SBackup, false);
 
     return retStatus;
 }
@@ -96,6 +100,7 @@ SYSCONFIG_WEAK void SYSCFG_DL_initPower(void)
     DL_TimerG_reset(PWM_0_INST);
     DL_TimerG_reset(QEI_0_INST);
     DL_TimerG_reset(TIMER_0_INST);
+    DL_TimerG_reset(TIMER_1S_INST);
     DL_UART_Main_reset(UART_0_INST);
 
     DL_GPIO_enablePower(GPIOA);
@@ -103,6 +108,7 @@ SYSCONFIG_WEAK void SYSCFG_DL_initPower(void)
     DL_TimerG_enablePower(PWM_0_INST);
     DL_TimerG_enablePower(QEI_0_INST);
     DL_TimerG_enablePower(TIMER_0_INST);
+    DL_TimerG_enablePower(TIMER_1S_INST);
     DL_UART_Main_enablePower(UART_0_INST);
     delay_cycles(POWER_STARTUP_DELAY);
 }
@@ -227,14 +233,14 @@ SYSCONFIG_WEAK void SYSCFG_DL_PWM_0_init(void) {
 		DL_TIMERG_CAPTURE_COMPARE_0_INDEX);
 
     DL_TimerG_setCaptCompUpdateMethod(PWM_0_INST, DL_TIMER_CC_UPDATE_METHOD_IMMEDIATE, DL_TIMERG_CAPTURE_COMPARE_0_INDEX);
-    DL_TimerG_setCaptureCompareValue(PWM_0_INST, 299, DL_TIMER_CC_0_INDEX);
+    DL_TimerG_setCaptureCompareValue(PWM_0_INST, 0, DL_TIMER_CC_0_INDEX);
 
     DL_TimerG_setCaptureCompareOutCtl(PWM_0_INST, DL_TIMER_CC_OCTL_INIT_VAL_LOW,
 		DL_TIMER_CC_OCTL_INV_OUT_DISABLED, DL_TIMER_CC_OCTL_SRC_FUNCVAL,
 		DL_TIMERG_CAPTURE_COMPARE_1_INDEX);
 
     DL_TimerG_setCaptCompUpdateMethod(PWM_0_INST, DL_TIMER_CC_UPDATE_METHOD_IMMEDIATE, DL_TIMERG_CAPTURE_COMPARE_1_INDEX);
-    DL_TimerG_setCaptureCompareValue(PWM_0_INST, 299, DL_TIMER_CC_1_INDEX);
+    DL_TimerG_setCaptureCompareValue(PWM_0_INST, 0, DL_TIMER_CC_1_INDEX);
 
     DL_TimerG_enableClock(PWM_0_INST);
 
@@ -297,7 +303,45 @@ SYSCONFIG_WEAK void SYSCFG_DL_TIMER_0_init(void) {
     DL_TimerG_initTimerMode(TIMER_0_INST,
         (DL_TimerG_TimerConfig *) &gTIMER_0TimerConfig);
     DL_TimerG_enableInterrupt(TIMER_0_INST , DL_TIMERG_INTERRUPT_ZERO_EVENT);
+	NVIC_SetPriority(TIMER_0_INST_INT_IRQN, 0);
     DL_TimerG_enableClock(TIMER_0_INST);
+
+
+
+
+
+}
+
+/*
+ * Timer clock configuration to be sourced by LFCLK /  (32768 Hz)
+ * timerClkFreq = (timerClkSrc / (timerClkDivRatio * (timerClkPrescale + 1)))
+ *   128 Hz = 32768 Hz / (1 * (255 + 1))
+ */
+static const DL_TimerG_ClockConfig gTIMER_1SClockConfig = {
+    .clockSel    = DL_TIMER_CLOCK_LFCLK,
+    .divideRatio = DL_TIMER_CLOCK_DIVIDE_1,
+    .prescale    = 255U,
+};
+
+/*
+ * Timer load value (where the counter starts from) is calculated as (timerPeriod * timerClockFreq) - 1
+ * TIMER_1S_INST_LOAD_VALUE = (1s * 128 Hz) - 1
+ */
+static const DL_TimerG_TimerConfig gTIMER_1STimerConfig = {
+    .period     = TIMER_1S_INST_LOAD_VALUE,
+    .timerMode  = DL_TIMER_TIMER_MODE_PERIODIC,
+    .startTimer = DL_TIMER_STOP,
+};
+
+SYSCONFIG_WEAK void SYSCFG_DL_TIMER_1S_init(void) {
+
+    DL_TimerG_setClockConfig(TIMER_1S_INST,
+        (DL_TimerG_ClockConfig *) &gTIMER_1SClockConfig);
+
+    DL_TimerG_initTimerMode(TIMER_1S_INST,
+        (DL_TimerG_TimerConfig *) &gTIMER_1STimerConfig);
+    DL_TimerG_enableInterrupt(TIMER_1S_INST , DL_TIMERG_INTERRUPT_ZERO_EVENT);
+    DL_TimerG_enableClock(TIMER_1S_INST);
 
 
 

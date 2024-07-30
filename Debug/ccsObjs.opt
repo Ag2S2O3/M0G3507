@@ -3,6 +3,7 @@
 "./main.o"
 "./Delay/delay.o"
 "./ENCODER/encoder.o"
+"./PID/pid.o"
 "./PWM/pwm.o"
 "./SSD1106_OLED/ssd1106.o"
 "./UART/UART.o"

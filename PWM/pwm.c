@@ -14,7 +14,7 @@ void PWM_init(void)
 void PWM_SetDuty(uint8_t channel, float duty)
 {
     uint32_t CompareValue;
-    CompareValue = period - period*duty; 
+    CompareValue = period - period*(1-duty); 
 
     if(channel == 0)
         DL_Timer_setCaptureCompareValue(PWM_0_INST, CompareValue, DL_TIMER_CC_0_INDEX);

@@ -15,6 +15,7 @@ ORDERED_OBJS += \
 "./main.o" \
 "./Delay/delay.o" \
 "./ENCODER/encoder.o" \
+"./PID/pid.o" \
 "./PWM/pwm.o" \
 "./SSD1106_OLED/ssd1106.o" \
 "./UART/UART.o" \
@@ -32,12 +33,14 @@ RMDIR := RMDIR /S/Q
 -include subdir_vars.mk
 -include Delay/subdir_vars.mk
 -include ENCODER/subdir_vars.mk
+-include PID/subdir_vars.mk
 -include PWM/subdir_vars.mk
 -include SSD1106_OLED/subdir_vars.mk
 -include UART/subdir_vars.mk
 -include subdir_rules.mk
 -include Delay/subdir_rules.mk
 -include ENCODER/subdir_rules.mk
+-include PID/subdir_rules.mk
 -include PWM/subdir_rules.mk
 -include SSD1106_OLED/subdir_rules.mk
 -include UART/subdir_rules.mk
@@ -171,8 +174,8 @@ empty_LP_MSPM0G3507_nortos_ticlang.txt: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "main.o" "Delay\delay.o" "ENCODER\encoder.o" "PWM\pwm.o" "SSD1106_OLED\ssd1106.o" "UART\UART.o" 
-	-$(RM) "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "main.d" "Delay\delay.d" "ENCODER\encoder.d" "PWM\pwm.d" "SSD1106_OLED\ssd1106.d" "UART\UART.d" 
+	-$(RM) "ti_msp_dl_config.o" "startup_mspm0g350x_ticlang.o" "main.o" "Delay\delay.o" "ENCODER\encoder.o" "PID\pid.o" "PWM\pwm.o" "SSD1106_OLED\ssd1106.o" "UART\UART.o" 
+	-$(RM) "ti_msp_dl_config.d" "startup_mspm0g350x_ticlang.d" "main.d" "Delay\delay.d" "ENCODER\encoder.d" "PID\pid.d" "PWM\pwm.d" "SSD1106_OLED\ssd1106.d" "UART\UART.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

@@ -127,6 +127,7 @@ SUBDIRS := \
 . \
 Delay \
 ENCODER \
+PID \
 PWM \
 SSD1106_OLED \
 UART \
