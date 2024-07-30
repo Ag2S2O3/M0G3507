@@ -76,12 +76,16 @@ void GetCount(void)
 
 
 //返回编码器值
-int16_t Encoder_GetM1(void)
+float Encoder_GetM1(void)
 {
-    return monitor1;
+    float data;
+    data = monitor1 * 3.14 * 4.8 / (0.01 * 13 * 20) / 4;
+    return data;
 }
 
-int16_t Encoder_GetM2(void)
+float Encoder_GetM2(void)
 {
-    return monitor2;
+    float data;
+    data = monitor2 * 3.14 * 4.8 / (0.01 * 13 * 20) / 2;
+    return data;
 }

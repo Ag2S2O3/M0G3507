@@ -66,8 +66,8 @@ int main(void)
             SSD1106_ShowFNum(17, 2, UART_ReturnPitch(), 8, 4);
             SSD1106_ShowFNum(17, 4, UART_ReturnYaw(), 8, 4);
         }
-        SSD1106_ShowFNum(25, 6, Encoder_GetM1(), 5, 0);
-        SSD1106_ShowFNum(25, 4, Encoder_GetM2(), 5, 0);
+        SSD1106_ShowFNum(25, 6, Encoder_GetM1(), 5, 3);
+        SSD1106_ShowFNum(25, 4, Encoder_GetM2(), 5, 3);
 
         DL_GPIO_togglePins(GPIO_LED_PORT, GPIO_LED_LED_PIN);
     }

@@ -82,16 +82,16 @@ extern "C" {
 #define PWM_0_INST_INT_IRQN                                     (TIMG6_INT_IRQn)
 #define PWM_0_INST_CLK_FREQ                                              1000000
 /* GPIO defines for channel 0 */
-#define GPIO_PWM_0_C0_PORT                                                 GPIOA
-#define GPIO_PWM_0_C0_PIN                                         DL_GPIO_PIN_29
-#define GPIO_PWM_0_C0_IOMUX                                       (IOMUX_PINCM4)
-#define GPIO_PWM_0_C0_IOMUX_FUNC                      IOMUX_PINCM4_PF_TIMG6_CCP0
+#define GPIO_PWM_0_C0_PORT                                                 GPIOB
+#define GPIO_PWM_0_C0_PIN                                          DL_GPIO_PIN_6
+#define GPIO_PWM_0_C0_IOMUX                                      (IOMUX_PINCM23)
+#define GPIO_PWM_0_C0_IOMUX_FUNC                     IOMUX_PINCM23_PF_TIMG6_CCP0
 #define GPIO_PWM_0_C0_IDX                                    DL_TIMER_CC_0_INDEX
 /* GPIO defines for channel 1 */
-#define GPIO_PWM_0_C1_PORT                                                 GPIOA
-#define GPIO_PWM_0_C1_PIN                                         DL_GPIO_PIN_30
-#define GPIO_PWM_0_C1_IOMUX                                       (IOMUX_PINCM5)
-#define GPIO_PWM_0_C1_IOMUX_FUNC                      IOMUX_PINCM5_PF_TIMG6_CCP1
+#define GPIO_PWM_0_C1_PORT                                                 GPIOB
+#define GPIO_PWM_0_C1_PIN                                          DL_GPIO_PIN_7
+#define GPIO_PWM_0_C1_IOMUX                                      (IOMUX_PINCM24)
+#define GPIO_PWM_0_C1_IOMUX_FUNC                     IOMUX_PINCM24_PF_TIMG6_CCP1
 #define GPIO_PWM_0_C1_IDX                                    DL_TIMER_CC_1_INDEX
 
 
