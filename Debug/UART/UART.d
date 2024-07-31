@@ -74,7 +74,8 @@ UART/UART.o: ../UART/UART.c \
  E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/dl_vref.h \
  E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/dl_wwdt.h \
  E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/m0p/dl_interrupt.h \
- E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/m0p/dl_systick.h
+ E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/m0p/dl_systick.h \
+ C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/PWM/pwm.h
 
 C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/UART/UART.h:
 
@@ -223,3 +224,5 @@ E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/dl_wwdt.h:
 E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/m0p/dl_interrupt.h:
 
 E:/ti/mspm0_sdk_2_01_00_03/source/ti/driverlib/m0p/dl_systick.h:
+
+C:/Users/HMRda/workspace_ccstheia/empty_LP_MSPM0G3507_nortos_ticlang/PWM/pwm.h:

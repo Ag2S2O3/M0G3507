@@ -3,7 +3,8 @@
 #include "pid.h"
 #include "pwm.h"
 
-float monitor1, monitor2;   //电极速度（cm/s)
+float monitor1, monitor2;   //电机速度（cm/s)
+int16_t encoder1, encoder2; //传递编码器计数值
 int16_t gEncoderCount;      //GPIO编码返回值
 float duty_left, duty_right;    //占空比
 uint32_t gpioA; 
@@ -21,7 +22,7 @@ void Encoder_Init(void)
     Speed_Change(30, 30);
 }
 
-//TIM中断服务函数
+//TIM中断服务函数(10ms)
 void TIMER_0_INST_IRQHandler(void)
 {
     switch (DL_TimerG_getPendingInterrupt(TIMER_0_INST)) {
@@ -74,13 +75,13 @@ void GROUP1_IRQHandler(void)
     DL_GPIO_clearInterruptStatus(GPIOA, DECODER_QEI_1_PIN|DECODER_QEI_2_PIN);
 }
 
+//获取编码器数据
 void GetCount(void)
 {
-    uint16_t test;
-    test =  DL_Timer_getTimerCount(QEI_0_INST);
-    monitor1 = test * 3.14 * 4.7 / (0.01 * 13 * 20) / 8;
-    monitor2 = gEncoderCount * 3.14 * 4.8 / (0.01 * 13 * 20) / 4;
-    DL_UART_Main_transmitData(UART_0_INST, test);
+    encoder1 =  DL_Timer_getTimerCount(QEI_0_INST);
+    monitor1 = encoder1 * 3.14 * 4.7 / (0.01 * 13 * 20) / 8;
+    encoder2 = gEncoderCount;
+    monitor2 = encoder2 * 3.14 * 4.8 / (0.01 * 13 * 20) / 4;
     DL_Timer_setTimerCount(QEI_0_INST, 0);
     gEncoderCount = 0;
 }

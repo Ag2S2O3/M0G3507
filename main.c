@@ -52,45 +52,30 @@ int main(void)
     //ENCODER
     Encoder_Init();
 
-    //DELAY 10S
-    DL_Timer_startCounter(TIMER_1S_INST);
-    NVIC_EnableIRQ(TIMER_1S_INST_INT_IRQN);
 
     //SSD1106
     SSD1106_Init();
-    SSD1106_ShowString(1, 0, (u8*) "D1= ", 16);
-    SSD1106_ShowString(1, 2, (u8*) "D2= ", 16);
+    SSD1106_ShowString(1, 0, (u8*) "R1= ", 16);
+    SSD1106_ShowString(1, 2, (u8*) "R2= ", 16);
     SSD1106_ShowString(1, 4, (u8*) "M1= ", 16);
     SSD1106_ShowString(1, 6, (u8*) "M2= ", 16);
-    flag1=0;
+    uint8_t M1,M2;
     while(1) 
     {		
         if(UART_GetFlag()==1)
         {
+            M1 = UART_ReturnM1();
+            M2 = UART_ReturnM2();
             // SSD1106_ShowFNum(17, 0, UART_ReturnRoll(), 8, 4);
             // SSD1106_ShowFNum(17, 2, UART_ReturnPitch(), 8, 4);
-            // SSD1106_ShowFNum(17, 4, UART_ReturnYaw(), 8, 4);
+            Speed_Change(M1, M2);
+            SSD1106_ShowNum(25, 0, M1, 2, 16);
+            SSD1106_ShowNum(25, 2, M2, 2, 16);
+            DL_GPIO_togglePins(GPIO_LED_PORT, GPIO_LED_LED_PIN);
         }
-        SSD1106_ShowFNum(25, 4, Encoder_GetM1(), 5, 3);
+         SSD1106_ShowFNum(25, 4, Encoder_GetM1(), 5, 3);
         SSD1106_ShowFNum(25, 6, Encoder_GetM2(), 5, 3);
-        SSD1106_ShowFNum(25, 0, Encoder_GetD1(), 4, 3);
-        SSD1106_ShowFNum(25, 2, Encoder_GetD2(), 4, 3);
-
         
     }
 }
 
-//2s的中断
-void TIMER_1S_INST_IRQHandler(void)
-{
-    switch (flag1) {
-        case 0: Speed_Change(10, 10); flag1+=1; break;
-        case 1: Speed_Change(30, 30); flag1+=1; break;
-        case 2: Speed_Change(50, 50); flag1+=1; break;
-        case 3: Speed_Change(20, 20); flag1+=1; break;
-        case 4: Speed_Change(0,0);
-                flag1 = 0; break;
-    }
-
-    DL_GPIO_togglePins(GPIO_LED_PORT, GPIO_LED_LED_PIN);
-}

@@ -1,20 +1,15 @@
 #include "UART.h"
 #include "ti/driverlib/m0p/dl_core.h"
 #include "ti_msp_dl_config.h"
+#include "pwm.h"
 
 uint8_t gEchoData;
 uint8_t flag;
 uint8_t stage;
-uint8_t RollL;
-uint8_t RollH;
-uint8_t PitchL;
-uint8_t PitchH;
-uint8_t YawL;
-uint8_t YawH;
-uint8_t VL;
-uint8_t VH;
-uint8_t SUM;
-uint8_t parity;
+uint8_t M1;
+uint8_t M2;
+uint8_t stop_flag;
+
 
 //初始化函数
 void UART_Init(void)
@@ -22,15 +17,8 @@ void UART_Init(void)
     NVIC_ClearPendingIRQ(UART_0_INST_INT_IRQN);
     NVIC_EnableIRQ(UART_0_INST_INT_IRQN);
     stage=0;
-    RollL=0;
-    RollH=0;
-    PitchL=0;
-    PitchH=0;
-    YawL=0;
-    YawH=0;
-    VL=0;
-    VH=0;
-    SUM=0;
+    M1=0;
+    M2=0;
 }
 
 
@@ -71,61 +59,55 @@ uint8_t UART_GetFlag(void)
 
 void Data_Decoder(uint8_t data)
 {
-    if(stage == 0)  //等待接收数据头（0x55）
+    if(stage == 0)  //等待接收数据头（#）
     {
-        if(data == 0x55)
+        if(data == '#')
             stage = 1;
     }
-    else if (stage == 1)    //等待接收角度数据（0x53） 
-    {
-        if (data == 0x53) {
-            stage = 2;
-        }
-        else 
-            stage = 0;
-    }
-    else if(stage > 1 && stage < 10)
+    else if(stage > 0 && stage < 3)
     {
         switch (stage) {
-            case 2: RollL = data; break;
-            case 3: RollH = data; break;
-            case 4: PitchL = data; break;
-            case 5: PitchH = data; break;
-            case 6: YawL = data; break;
-            case 7: YawH = data; break;
-            case 8: VL = data; break;
-            case 9: VH = data; break;
+            case 1: M1 = data; break;
+            case 2: M2 = data; break;
         }
         stage++;
     }
-    else if(stage == 10)
+    else if(stage == 3) //等待接收数据尾（!）
     {
-        SUM = (0x55+0x53+RollH+RollL+PitchH+PitchL+YawH+YawL+VH+VL) & 0x0F;
-        if(data == SUM)
-            parity = 0;
-        else
-            parity = 1;
-        stage = 0;
+        if (data == '!') {
+            stage = 0;
+        }
     }
+
+    if(stop_flag == 0)
+    {
+        if(data == 0xff)    //接收到了停车指令
+        {
+            stop_flag = 1;
+        } 
+    }
+    else if(stop_flag == 1)
+    {
+        if (data == 0xfc) 
+        {
+            PWM_SetDuty(0, 0);
+            PWM_SetDuty(1, 0);
+            while(1);
+        }
+        else
+        {
+            stop_flag = 0;
+        }
+    }
+    
 }
 
-float UART_ReturnRoll(void)
+float UART_ReturnM1(void)
 {
-    float Roll;
-    Roll = (short)((short) RollH << 8 | RollL ) * 180.000 / 32768.000 ;
-    return Roll;
+    return M1;
 }
 
-float UART_ReturnPitch(void)
+float UART_ReturnM2(void)
 {
-    float Pitch;
-    Pitch = (short)((short) PitchH << 8 | PitchL ) * 180.000 / 32768.000 ;
-    return Pitch;
-}
-
-float UART_ReturnYaw(void)
-{
-    float Yaw;
-    Yaw = (short)((short) YawH << 8 | YawL ) * 180.000 / 32768.000 ;
-    return Yaw;
+    return M2;
 }
