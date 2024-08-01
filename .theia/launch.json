@@ -1,0 +1,34 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "empty_LP_MSPM0G3507_nortos_ticlang",
+            "type": "ccs-debug",
+            "request": "launch",
+            "project": "empty_LP_MSPM0G3507_nortos_ticlang",
+            "debuggerSettings": {
+                "targetConfigs/MSPM0G3507.ccxml": {
+                    "Texas Instruments XDS110 USB Debug Probe/CORTEX_M0P": {
+                        "data": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n<PropertyValues/>\n"
+                    }
+                }
+            }
+        },
+        {
+            "name": "gpio_toggle_output_LP_MSPM0G3507_nortos_ticlang",
+            "type": "ccs-debug",
+            "request": "launch",
+            "project": "gpio_toggle_output_LP_MSPM0G3507_nortos_ticlang",
+            "debuggerSettings": {
+                "targetConfigs/MSPM0G3507.ccxml": {
+                    "Texas Instruments XDS110 USB Debug Probe/CORTEX_M0P": {
+                        "data": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n<PropertyValues/>\n"
+                    },
+                    "Texas Instruments XDS110 USB Debug Probe/CS_DAP_0": {
+                        "data": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n<PropertyValues/>\n"
+                    }
+                }
+            }
+        }
+    ]
+}
