@@ -39,7 +39,7 @@
 
 
 uint8_t M1, M2; //电机数据
-float angle_set_2[2] = {0, 180};
+float angle_set_2[2] = {0, 175};
 float angle_set_3[2] = {-45, 230};
 float angle_set_4[8] = {-45, 230, -50, 230, -50, 230, -50, 230};
 uint8_t task;
@@ -149,6 +149,8 @@ int main(void)
     //LED
     DL_GPIO_setPins(GPIO_LED_PORT, GPIO_LED_PIN_0_PIN);
 
+    NVIC_EnableIRQ(TIMER_300ms_INST_INT_IRQN);
+
     float Y = 0;    //当前角度
     float angle = 0;    //当前根据角度需要调整的速度
     uint8_t status = 0; //灰度返回的状态
@@ -182,7 +184,7 @@ int main(void)
                 {
                     Y = UART_ReturnYaw();
                 }
-                angle = Pid_Angle(target_angle, Y) * 10;
+                angle = Pid_Angle(0, Y) * 10;
                 if(angle > 10)
                     angle = 10;
                 if(angle < -10)
@@ -192,9 +194,13 @@ int main(void)
             if(status != 0x00)
             {
                 UART_Stop();
-                Shout();
+                if (mode == 0) {
+                    Shout();
+                    mode = 1;
+                }
             }
-                
+            SSD1106_ShowFNum(17, 4, Y, 8, 4);    
+            UART_SendM();
         }
         
     }
@@ -203,8 +209,8 @@ int main(void)
 ///////////////////////////////////////////////////////////////TASK 2//////////////////////////////////////////////////////////////////
     if(task == 2)
     {
+        target_angle = angle_set_2[0];
         while (1) {
-            target_angle = angle_set_2[0];
             status = GARY_ReturnS();
             //接收角度数据
             if(UART_GetFlag()==1)
@@ -226,7 +232,7 @@ int main(void)
                 //接近目标角度指示
                 if(correct_flag == 0)
                 {
-                    if(Y - target_angle  < 5 && Y - target_angle  > -5)
+                    if(Y - target_angle  < 10 && Y - target_angle  > -10)
                     {
                         flag = 1;
                     }
@@ -258,7 +264,6 @@ int main(void)
                             shout = 1;
                         }
                         M1 = 30 - angle; M2 = 30 + angle; 
-                        DL_GPIO_clearPins(GPIO_LED_PORT, GPIO_LED_PIN_0_PIN);
                         if(stop_enable == 1)
                         {
                             UART_Stop();
@@ -274,24 +279,27 @@ int main(void)
                 shout = 0;
                 Shout();
                 if (stage == 0)    //进入下一个寻迹阶段
-                    {
-                        stage = 1;  
-                        target_angle = angle_set_2[1];
-                        correct_flag = 0;
-                    }
-                    else if (stage == 1)
-                    {
-                        stage = 2;
-                        stop_enable = 1;
-                        target_angle = 0;
-                        correct_flag = 0;
-                    }
+                {
+                    stage = 1;  
+                    target_angle = angle_set_2[1];
+                    correct_flag = 0;
+                }
+                else if (stage == 1)
+                {
+                    stage = 2;
+                    stop_enable = 1;
+                    target_angle = 0;
+                    correct_flag = 0;
+                }
             }
 
-            SSD1106_ShowNum(25, 0, M1 , 2, 16);
-            SSD1106_ShowNum(25, 2, M2 , 2, 16);
 
             UART_SendM();
+
+            SSD1106_ShowFNum(1, 0, stage, 5, 2);
+            SSD1106_ShowNum(1, 2, flag,3, 16);
+            SSD1106_ShowNum(80, 0, M1 , 2, 16);
+            SSD1106_ShowNum(80, 2, M2 , 2, 16);
         }
     }
 ///////////////////////////////////////////////////////////////TASK 3//////////////////////////////////////////////////////////////////
@@ -328,7 +336,7 @@ int main(void)
                         }
                     }
                     else if (stage == 1) {
-                        if(Y  - 180 < 10 && Y - 180  > -10)
+                        if(Y  - 180 < 15 && Y - 180  > -15)
                         {
                             flag = 1;
                         }
@@ -384,17 +392,19 @@ int main(void)
                                 correct_flag = 1;   //进入角度修正模式
                                 mode = 1;
                                 UART_ClearGPIO();   //清标识位
+                                Shout();
                             }
                             else if((DL_GPIO_readPins(GPIO_STATE_PORT, GPIO_STATE_P0_PIN | GPIO_STATE_P1_PIN) >> 21) == 2 && mode2 !=1)
                             {
                                 flag = 0;   //退出角度寻迹
                                 if(stage == 1)
                                 {
-                                    target_angle = 177;
+                                    target_angle = 176;
                                 }
                                 correct_flag = 1;   //进入角度修正模式
                                 mode2 = 1;
                                 UART_ClearGPIO();   //清标识位
+                                Shout();
                             }
                         }
                         break; 
@@ -420,7 +430,6 @@ int main(void)
                         target_angle = 0;
                         correct_flag = 0;
                     }
-                    Shout();
                 }
             }
 
@@ -466,7 +475,7 @@ int main(void)
                         }
                     }
                     else if (stage == 1 || stage == 3 || stage == 5 || stage == 7) {
-                        if(Y  - 180 < 10 && Y - 180  > -10)
+                        if(Y  - 180 < 15 && Y - 180  > -15)
                         {
                             flag = 1;
                         }
@@ -495,6 +504,11 @@ int main(void)
                     {
                         if(flag == 1)   //进入角度寻迹模式
                         {
+                            if(shout == 0)
+                            {
+                                Shout();
+                                shout = 1;
+                            }
                             M1 = 30 - angle; M2 = 30 + angle; 
                             if(stop_enable == 1)
                             {
@@ -521,6 +535,7 @@ int main(void)
                                 correct_flag = 1;   //进入角度修正模式
                                 mode = 1;
                                 UART_ClearGPIO();   //清标识位
+                                Shout();
                             }
                             else if((DL_GPIO_readPins(GPIO_STATE_PORT, GPIO_STATE_P0_PIN | GPIO_STATE_P1_PIN) >> 21) == 2 && mode2 !=1)
                             {
@@ -536,6 +551,7 @@ int main(void)
                                 correct_flag = 1;   //进入角度修正模式
                                 mode2 = 1;
                                 UART_ClearGPIO();   //清标识位
+                                Shout();
                             }
                         }
                         break; 
@@ -551,7 +567,7 @@ int main(void)
                     if (stage < 6)    
                     {
                         stage ++;  
-                        target_angle = angle_set_3[stage];
+                        target_angle = angle_set_4[stage];
                         correct_flag = 0;
                     }
                     else if (stage == 6)
